@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package grpc;
+
+option go_package = "/AssignmentTotalityCorp/grpc";
+
+service UserService {
+  rpc GetUserById(UserRequest) returns (UserResponse);
+  rpc GetUsersByIds(UsersRequest) returns (stream UserResponse);
+  rpc SearchUsers(SearchRequest) returns (stream UserResponse);
+}
+
+message User {
+  int32 id = 1;
+  string fname = 2;
+  string city = 3;
+  uint64 phone = 4;
+  float height = 5;
+  bool married = 6;
+}
+
+message UserRequest {
+  int32 id = 1;
+}
+
+message UsersRequest {
+  repeated int32 ids = 1;
+}
+
+message SearchRequest {
+  repeated SearchCriteria criteria = 1;
+}
+
+message SearchCriteria {
+  string field = 1;  // e.g., "fname", "city", "phone", "height"
+  string keyword = 2;
+}
+
+message UserResponse {
+  User user = 1;
+  string message = 2;
+}
